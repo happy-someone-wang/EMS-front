@@ -55,6 +55,9 @@ export const constantRoutes = [
     }]
   },
 
+
+
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -64,30 +67,46 @@ export const asyncRoutes = [
     path: '/student/course',
     component: Layout,
     name: 'Course',
+    redirect: '/student/course/courseList',
     meta: { title: '实验课程中心', icon: 'el-icon-s-help', roles: ['student'] },
     children: [
       {
         path: 'courseList',
         name: 'CourseList',
-        component: () => import('@/views/course/courseList/index'),
-        meta: { title: '课程列表', icon: 'el-icon-s-marketing' }
+        component: () => import('@/views/studentViews/course/courseList/index'),
+        meta: { title: '课程列表', icon: 'el-icon-s-marketing' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/studentViews/course/courseList/homePage/index'),
+            hidden: true
+          },
+          {
+            path: 'experiemntList',
+            name: 'ExperimentList',
+            component: () => import('@/views/studentViews/course/courseList/experimentList/index'),
+            meta: { title: '实验列表', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ]
       },
       {
         path: 'courseSignIn',
         name: 'CourseSignIn',
-        component: () => import('@/views/course/courseSignIn/index'),
+        component: () => import('@/views/studentViews/course/courseSignIn/index'),
         meta: { title: '课程签到', icon: 'el-icon-s-claim' }
       },
       {
         path: 'labReport',
         name: 'LabReport',
-        component: () => import('@/views/course/labReport/index'),
+        component: () => import('@/views/studentViews/course/labReport/index'),
         meta: { title: '实验报告', icon: 'form' }
       },
       {
         path: 'scoreManage',
         name: 'ScoreManage',
-        component: () => import('@/views/course/scoreManage/index'),
+        component: () => import('@/views/studentViews/course/scoreManage/index'),
         meta: { title: '成绩管理', icon: 'el-icon-s-data' }
       },
     ]
@@ -101,13 +120,13 @@ export const asyncRoutes = [
       {
         path: 'personInfo',
         name: 'PersonInfo',
-        component: () => import('@/views/person/personInfo/index'),
+        component: () => import('@/views/studentViews/person/personInfo/index'),
         meta: { title: '个人信息', icon: 'el-icon-s-custom' }
       },
       {
         path: 'accountManage',
         name: 'AccountManage',
-        component: () => import('@/views/person/accountManage/index'),
+        component: () => import('@/views/studentViews/person/accountManage/index'),
         meta: { title: '账号管理', icon: 'el-icon-s-finance' }
       }
     ]
@@ -117,26 +136,20 @@ export const asyncRoutes = [
     path: '/student/notice',
     component: Layout,
     name: 'Notice',
-    meta: { title: '信息中心', icon: 'el-icon-s-promotion', roles: ['student']  },
+    meta: { title: '信息中心', icon: 'el-icon-s-promotion', roles: ['student'] },
     children: [
       {
         path: 'systemInfo',
         name: 'SystemInfo',
-        component: () => import('@/views/notice/systemInfo/index'),
+        component: () => import('@/views/studentViews/notice/systemInfo/index'),
         meta: { title: '系统通知', icon: 'el-icon-s-comment' }
       },
       {
         path: 'courseInfo',
         name: 'CourseInfo',
-        component: () => import('@/views/notice/courseInfo/index'),
+        component: () => import('@/views/studentViews/notice/courseInfo/index'),
         meta: { title: '实验课程通知', icon: 'el-icon-message-solid' }
       },
-      {
-        path: 'test',
-        name: 'Test',
-        component: () => import('@/views/notice/test/index'),
-        meta: { title: '测试', icon: 'el-icon-message-solid' }
-      }
     ]
   },
 ]

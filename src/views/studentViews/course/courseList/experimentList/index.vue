@@ -1,14 +1,12 @@
-
 <template>
     <div>
-        test
+        实验列表
     </div>
 </template>
 
 <script>
-import { getList } from "@/api/table"
 export default {
-    name: 'EMSIndex',
+    name: 'ExperimentList',
 
     data() {
         return {
@@ -17,7 +15,7 @@ export default {
     },
 
     mounted() {
-        getList();
+        
     },
 
     methods: {
