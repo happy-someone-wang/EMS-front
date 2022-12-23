@@ -44,7 +44,7 @@
             style="margin-bottom: 0px; margin-left: 150px"
             label="开课学年"
           >
-            <el-select size="small" v-model="value" placeholder="请选择学年">
+            <el-select size="small" v-model="year" placeholder="请选择学年">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -59,9 +59,9 @@
             style="margin-bottom: 0px; margin-left: 20px"
             label="开课学期"
           >
-            <el-select size="small" v-model="value" placeholder="请选择学期">
+            <el-select size="small" v-model="term" placeholder="请选择学期">
               <el-option
-                v-for="item in term"
+                v-for="item in terms"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -115,11 +115,11 @@ export default {
       filter_name: null,
       options: [
         {
-          value: "选项1",
-          label: "黄金糕",
+          value: "2022",
+          label: "2022-2023",
         },
       ],
-      term: [
+      terms: [
         {
           value: "1",
           label: "第一学期",
@@ -140,7 +140,8 @@ export default {
         },
       ],
 
-      value: "",
+      year:"",
+      term:"",
     };
   },
 
