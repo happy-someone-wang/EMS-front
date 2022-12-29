@@ -63,6 +63,42 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
+    {
+    path: '/admin',
+    component: Layout,
+    name: 'Admin',
+    redirect: '/admin/useradd',
+    meta: { title: '管理中心', icon: 'el-icon-s-help', roles: ['admin'] },
+    children: [
+      {
+        path: 'useradd',
+        name: 'Useradd',
+        component: () => import('@/views/adminViews/userAdd/index'),
+        meta: { title: '添加用户', icon: 'el-icon-s-marketing' },
+      },
+      {
+        path: 'userchange',
+        name: 'Userchange',
+        component: () => import('@/views/adminViews/userChange/index'),
+        meta: { title: '修改用户', icon: 'el-icon-s-claim' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/adminViews/userChange/homePage/index'),
+            hidden: true
+          },
+          {
+            path: 'change',
+            name: 'Change',
+            component: () => import('@/views/adminViews/userChange/change/index'),
+            meta: { title: '修改', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ]
+      },
+    ]
+  },
   {
     path: '/student/course',
     component: Layout,
