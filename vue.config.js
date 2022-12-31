@@ -28,7 +28,7 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'static',
   // lintOnSave: process.env.NODE_ENV === 'development',
-  lintOnSave: false,
+  lintOnSave: true,
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -47,6 +47,9 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    performance:{
+      hints:false
     }
   },
   chainWebpack(config) {
