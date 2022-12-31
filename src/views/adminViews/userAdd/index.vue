@@ -18,7 +18,7 @@
         将文件拖到此处，或
         <em>点击上传</em>
       </div>
-      <div class="el-upload__tip" slot="tip">1次只能上传1个xls文件,且不超过500kb</div>
+      <div class="el-upload__tip" slot="tip">1次只能上传1个xls文件</div>
     </el-upload>
     </el-card>
     <div class="preview-excel">
@@ -47,7 +47,7 @@
         将文件拖到此处，或
         <em>点击上传</em>
       </div>
-      <div class="el-upload__tip" slot="tip">1次只能上传1个xls文件,且不超过500kb</div>
+      <div class="el-upload__tip" slot="tip">1次只能上传1个xls文件</div>
     </el-upload>
     </el-card>
     <div class="preview-excel">

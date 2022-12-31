@@ -68,7 +68,7 @@ export const asyncRoutes = [
     component: Layout,
     name: 'Admin',
     redirect: '/admin/useradd',
-    meta: { title: '管理中心', icon: 'el-icon-s-help', roles: ['admin'] },
+    meta: { title: '管理中心', icon: 'el-icon-s-tools', roles: ['admin'] },
     children: [
       {
         path: 'useradd',
@@ -96,6 +96,34 @@ export const asyncRoutes = [
             hidden: true
           },
         ]
+      },
+      {
+        path: 'notice',
+        name: 'Notice',
+        component: () => import('@/views/adminViews/notice/index'),
+        meta: { title: '系统通知', icon: 'el-icon-s-claim' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/adminViews/notice/homepage/index'),
+            hidden: true
+          },
+          {
+            path: 'detail',
+            name: 'Detail',
+            component: () => import('@/views/adminViews/notice/detail/index'),
+            meta: { title: '公告细节', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+          {
+            path: 'add',
+            name: 'Add',
+            component: () => import('@/views/adminViews/notice/add/index'),
+            meta: { title: '新增公告', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ],
       },
     ]
   },
