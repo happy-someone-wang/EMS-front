@@ -1,5 +1,5 @@
-import { logout, getInfo } from '@/api/user'
-import { login } from '@/api/student'
+import { logout } from '@/api/user'
+import { login, getInfo } from '@/api/student'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -50,13 +50,17 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
+        console.log(response);
+        const data = response.data
 
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
-        const { roles, name, avatar, introduction } = data
+        const roles = [];
+        roles.push(data.role);
+        const name = data.name;
+        const avatar = data.avatar;
+        // const { roles, name, avatar, introduction } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -67,7 +71,7 @@ const actions = {
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        resolve(data)
+        resolve(roles)
       }).catch(error => {
         reject(error)
       })
