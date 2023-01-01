@@ -102,7 +102,7 @@ export default {
     },
 
     mounted() {
-        // this.getTopNotice()
+        this.getTopNotice()
     },
 
     methods: {
@@ -111,7 +111,7 @@ export default {
                 .then(res => {
                     this.topNoticeList = res.data
                     console.log("res = ", res)
-                    resolve(res.data)
+                    // resolve(res.data)
                 })
                 .catch(err => {
                     console.log("err")

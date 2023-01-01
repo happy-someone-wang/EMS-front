@@ -37,19 +37,21 @@ module.exports = {
       warnings: false,
       errors: false
     },
-    // before: require('./mock/mock-server.js')
+    before: require('./mock/mock-server.js'),
     // //跨域配置
     proxy: {
       "/api": {
         // 目标代理接口地址
-        target: process.env.NODE_ENV === 'development' ? "http://localhost:8080/" : "http://42.192.45.95:8081/",
+        // target: process.env.NODE_ENV === 'development' ? "http://localhost:8080/" : "http://42.192.45.95:8081/",
         // target: "http://42.192.45.95:8081/",
 
+        target: "http://localhost:7999",
         secure: false,
         changeOrigin: true, // 开启代理，在本地创建一个虚拟服务端
         //ws: true, // 是否启用websockets
         pathRewrite: {
-          "^/api": '/hive'
+          // "^/api": '/hive'
+          "^/api": ""
         }
       }
     },
