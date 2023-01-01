@@ -25,7 +25,20 @@ export function getInfo(token) {
         url: '/login/getUserInfo',
         method: 'get',
         params: {
-            token:token
+            token: token
+        }
+    })
+}
+
+export function activateAccount(form) {
+    return request({
+        url: '/login/activateAccount',
+        method: 'get',
+        params: {
+            userId: form.username,
+            password: form.password,
+            email: form.email,
+            role: form.role
         }
     })
 }
