@@ -152,6 +152,82 @@ export const asyncRoutes = [
       },
     ]
   },
+
+  {
+    path: '/teacher/course',
+    component: Layout,
+    name: 'Course',
+    redirect: '/teacher/course/courseList',
+    meta: { title: '实验课程中心', icon: 'el-icon-s-help', roles: ['teacher'] },
+    children: [
+      {
+        path: 'courseList',
+        name: 'CourseList',
+        component: () => import('@/views/teacherViews/course/courseList/index'),
+        meta: { title: '我的授课', icon: 'el-icon-s-marketing' },
+      },
+      {
+        path: 'experiment',
+        name: 'Experiment',
+        component: () => import('@/views/teacherViews/course/experimentItem/index'),
+        meta: { title: '实验项目', icon: 'el-icon-s-claim' }
+      },
+      {
+        path: 'todoList',
+        name: 'TodoList',
+        component: () => import('@/views/teacherViews/course/todoList/index'),
+        meta: { title: '我的代办', icon: 'form' }
+      },
+      {
+        path: 'scoreManage',
+        name: 'ScoreManage',
+        component: () => import('@/views/teacherViews/course/scoreManage/index'),
+        meta: { title: '成绩管理', icon: 'el-icon-s-data' }
+      },
+    ]
+  },
+
+  {
+    path: '/teacher/notice',
+    component: Layout,
+    name: 'Notice',
+    meta: { title: '信息中心', icon: 'el-icon-s-promotion', roles: ['teacher'] },
+    children: [
+      {
+        path: 'systemNotice',
+        name: 'SystemNotice',
+        component: () => import('@/views/teacherViews/notice/systemNotice/index'),
+        meta: { title: '系统通知', icon: 'el-icon-s-comment' }
+      },
+      {
+        path: 'courseNotice',
+        name: 'CourseNotice',
+        component: () => import('@/views/teacherViews/notice/courseNotice/index'),
+        meta: { title: '课程通知', icon: 'el-icon-message-solid' }
+      },
+    ]
+  },
+
+  {
+    path: '/teacher/person',
+    component: Layout,
+    meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['teacher'] },
+    children: [
+      {
+        path: 'personalInfo',
+        name: 'PersonalInfo',
+        component: () => import('@/views/teacherViews/person/personalInfo/index'),
+        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
+      },
+      {
+        path: 'accountManage',
+        name: 'AccountManage',
+        component: () => import('@/views/teacherViews/person/accountManage/index'),
+        meta: { title: '账号管理', icon: 'el-icon-s-finance' }
+      }
+    ]
+  },
+
 ]
 
 const createRouter = () => new Router({
