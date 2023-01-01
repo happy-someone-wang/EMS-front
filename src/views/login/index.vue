@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">实验教学管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,20 +41,25 @@
         </span>
       </el-form-item>
 
+      <el-form-item prop="role">
+        <div style="text-align:center">
+          <el-radio-group v-model="radio">
+            <el-radio label="学生"></el-radio>
+            <el-radio label="教师"></el-radio>
+            <el-radio label="管理员"></el-radio>
+          </el-radio-group>
+        </div>
+        
+      </el-form-item>
+      
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+ const cityOptions = ['上海', '北京', '广州', '深圳'];
 export default {
   name: 'Login',
   data() {
@@ -83,7 +88,8 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      radio:""
     }
   },
   watch: {
@@ -179,11 +185,17 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
-  overflow: hidden;
+  // min-height: 100%;
+  // width: 100%;
+  // background-color: $bg;
+  // overflow: hidden;
 
+  width: 100%;
+  height: 100%;
+  background-image: url("../../assets/tongji.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
   .login-form {
     position: relative;
     width: 520px;
