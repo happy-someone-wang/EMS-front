@@ -1,4 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
+import { logout, getInfo } from '@/api/user'
+import { login } from '@/api/student'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -30,13 +31,14 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
-    console.log("输入的用户信息",userInfo);
+    console.log("输入的用户信息", userInfo);
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
+      login(2050001, password, "student").then(response => {
+        console.log(response);
+        // const { data } = response
         console.log("用户登录")
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', response.data.token)
+        setToken(response.data.token)
         resolve()
       }).catch(error => {
         reject(error)
