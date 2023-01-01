@@ -76,5 +76,15 @@ export function resetPassword(userId, role, password) {
     })
 }
 
+export function getExperimentList(courseId) {
+    return request({
+        url: 'experiment/getExperimentList',
+        method: 'get',
+        params: {
+            courseId:courseId
+        }
+    })
+}
+
 
 
