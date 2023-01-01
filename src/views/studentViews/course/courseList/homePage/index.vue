@@ -106,9 +106,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: "HomePage",
-
+  computed: {
+    ...mapGetters([
+      'userId','roles'
+    ])
+  },
   data() {
     return {
       loading: false,
@@ -145,7 +150,9 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    console.log("当前我的ID和身份为",this.userId,this.roles)
+  },
 
   methods: {
     ResetButtonClick() {

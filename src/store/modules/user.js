@@ -1,10 +1,11 @@
-import { logout, getInfo } from '@/api/user'
-import { login } from '@/api/student'
+import { } from '@/api/user'
+import { login, getInfo, logout } from '@/api/student'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
+  userId:'',
   name: '',
   avatar: '',
   introduction: '',
@@ -24,16 +25,20 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USERID: (state, userId) => {
+    state.userId = userId
   }
+
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password,role } = userInfo
     console.log("输入的用户信息", userInfo);
     return new Promise((resolve, reject) => {
-      login(2050001, password, "student").then(response => {
+      login(username, password, role).then(response => {
         console.log(response);
         // const { data } = response
         console.log("用户登录")
@@ -50,13 +55,18 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
+        console.log(response);
+        const data = response.data
 
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
-        const { roles, name, avatar, introduction } = data
+        const roles = [];
+        roles.push(data.role);
+        const name = data.name;
+        const avatar = data.avatar;
+        const userId = data.userId;
+        // const { roles, name, avatar, introduction } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -67,7 +77,8 @@ const actions = {
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        resolve(data)
+        commit('SET_USERID', userId)
+        resolve(roles)
       }).catch(error => {
         reject(error)
       })

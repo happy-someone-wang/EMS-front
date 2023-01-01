@@ -43,10 +43,10 @@
 
       <el-form-item prop="role">
         <div style="text-align:center">
-          <el-radio-group v-model="radio">
-            <el-radio label="学生"></el-radio>
-            <el-radio label="教师"></el-radio>
-            <el-radio label="管理员"></el-radio>
+          <el-radio-group v-model="loginForm.role">
+            <el-radio label="student"></el-radio>
+            <el-radio label="teacher"></el-radio>
+            <el-radio label="admin"></el-radio>
           </el-radio-group>
         </div>
         
@@ -59,37 +59,39 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
- const cityOptions = ['上海', '北京', '广州', '深圳'];
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
+      callback();
+      // if (!validUsername(value)) {
+      //   callback(new Error('Please enter the correct user name'))
+      // } else {
+      //   callback()
+      // }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
+      // if (value.length < 6) {
+      //   callback(new Error('The password can not be less than 6 digits'))
+      // } else {
+      //   callback()
+      // }
+      callback();
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: '',
+        role:'',
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        role: [{ required: true }]
       },
       loading: false,
       passwordType: 'password',
       redirect: undefined,
-      radio:""
     }
   },
   watch: {
@@ -115,6 +117,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          console.log("用户输入的登录信息为",this.loginForm);
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             // 从哪里跳到/login页面，登陆之后就返回哪里
             this.$router.push({ path: this.redirect || '/' })
