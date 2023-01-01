@@ -43,3 +43,38 @@ export function activateAccount(form) {
     })
 }
 
+export function getStudentCourseList(studentId) {
+    return request({
+        url: '/course/getStudentCourseList',
+        method: 'get',
+        params: {
+            studentId: studentId,
+        }
+    })
+}
+
+export function sendForgetEmail(userId, role) {
+    return request({
+        url: '/login/sendForgetEmail',
+        method: 'get',
+        params: {
+            userId: userId,
+            role: role
+        }
+    })
+}
+
+export function resetPassword(userId, role, password) {
+    return request({
+        url: '/login/resetPassword',
+        method: 'get',
+        params: {
+            userId: userId,
+            role: role,
+            password: password
+        }
+    })
+}
+
+
+

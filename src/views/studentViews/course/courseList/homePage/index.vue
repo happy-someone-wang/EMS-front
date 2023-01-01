@@ -81,7 +81,7 @@
         style="width: 100%"
         v-loading="loading"
       >
-        <el-table-column prop="index" label="课程序号" width="150">
+        <el-table-column prop="courseId" label="课程序号" width="150">
         </el-table-column>
         <el-table-column prop="name" label="课程名称" width="300">
         </el-table-column>
@@ -89,9 +89,9 @@
         </el-table-column>
         <el-table-column prop="teacher" label="教师" width="120">
         </el-table-column>
-        <el-table-column prop="time" label="上课时间" width="200">
+        <el-table-column prop="startTime" label="开课时间" width="200">
         </el-table-column>
-        <el-table-column prop="location" label="上课地点" width="200">
+        <el-table-column prop="endTime" label="结课时间" width="200">
         </el-table-column>
         <el-table-column fixed="right">
           <template slot-scope="scope">
@@ -107,6 +107,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getStudentCourseList } from '@/api/student'
 export default {
   name: "HomePage",
   computed: {
@@ -136,12 +137,12 @@ export default {
       ],
       courseTable: [
         {
-          index: "42014603",
-          name: "软件工程课程设计",
-          credit: 1.5,
-          teacher: "黄杰",
-          time: "星期三11-17节",
-          location: "博楼314",
+          courseId: "",
+          name: "",
+          credit: null,
+          startTime: "",
+          endTime: "",
+          teacher: [],
         },
       ],
 
@@ -152,6 +153,12 @@ export default {
 
   mounted() {
     console.log("当前我的ID和身份为",this.userId,this.roles)
+    getStudentCourseList(this.userId)
+    .then(res=>{
+      console.log("当前的课程信息为",res.data);
+      this.courseTable = res.data;
+      console.log("当前的课程信息为",this.courseTable);
+    })
   },
 
   methods: {
