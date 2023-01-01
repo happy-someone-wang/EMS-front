@@ -11,3 +11,22 @@ export function login(userId, password, role) {
         }
     })
 }
+
+
+export function logout() {
+    return request({
+        url: '/login/userLogout',
+        method: 'get',
+    })
+}
+
+export function getInfo(token) {
+    return request({
+        url: '/login/getUserInfo',
+        method: 'get',
+        params: {
+            token:token
+        }
+    })
+}
+
