@@ -8,11 +8,11 @@
           style="width: 100%"
           v-loading="loading"
         >
-        <el-table-column prop="id" label="ID" width="300">
+        <el-table-column prop="notice_id" label="ID" width="300">
           </el-table-column>
           <el-table-column prop="title" label="标题" width="400">
           </el-table-column>
-          <el-table-column prop="time" label="时间" width="150">
+          <el-table-column prop="create_time" label="时间" width="150">
           </el-table-column>
           <el-table-column fixed="right">
             <template slot-scope="scope">
@@ -27,36 +27,28 @@
 </template>
 
 <script>
+import { getnoticelist } from '@/api/systemnotice'
 export default {
+  
   name: "Homepage",
   data() {
       return {
-        noticeList: [
-          {
-            id: "000001",
-            title: "关于系统停机维护的通知",
-            time: "2022-12-29",
-          },
-          {
-            id: "000002",
-            title: "关于2022-2023学年第二学期实验教学课程的通知",
-            time: "2022-12-29"
-          }
+        notice: [
         ],
       };
     },
-created()
-{
-  this.$axios({//有跨域问题，待网关调试完成后再试
-      method: 'get',
-      url: 'http://localhost:8082/notice',
-      params: {
-        courseId: this.form.class
-      }
-    }).then((res) => {
-      console.log('数据：', res)
-    })
-},
+    mounted() {
+    console.log("加载")
+    getnoticelist()
+      .then((res) => {
+        console.log(res);
+        this.notice = res.data.noticeList;
+      })
+      .catch((err) => {
+        //上传失败回调函数
+        console.log(err)
+      })
+  },
   
     methods: {
       ClickDetail(row) {

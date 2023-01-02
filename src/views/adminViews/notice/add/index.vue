@@ -6,15 +6,6 @@
   <el-form-item label="公告标题">
     <el-input v-model="form.title"></el-input>
   </el-form-item>
-  <el-form-item label="发布时间">
-    <el-col :span="11">
-      <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-    </el-col>
-    <el-col class="line" :span="2">-</el-col>
-    <el-col :span="11">
-      <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-    </el-col>
-  </el-form-item>
   <el-form-item label="公告内容">
     <el-input type="textarea" v-model="form.content"></el-input>
   </el-form-item>
@@ -29,22 +20,29 @@
 </template>
 
 <script>
+import { postnotice } from '@/api/systemnotice'
 export default {
   name: "Detail",
   data() {
       return {
         form: {
           title: '',
-          date1: '',
-          date2: '',
-          content: ''
+          content: '',
         }
       }
     },
   
 methods: {
-    onSubmit() {
-        console.log(this.form);
+    onSubmit() {        
+      console.log(this.form);
+      postnotice(this.form)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        //上传失败回调函数
+        console.log(err)
+      })
       },
     }
     

@@ -10,12 +10,8 @@ export function adduser(data) {
 
 export function getusers() {
     return request({
-        url: '/admin/check',
+        url: '/admin/check?id=0&type=all',
         method: 'get',
-        param:{
-            id:0,
-            type:"all"
-        }
     })
 }
 
@@ -23,9 +19,9 @@ export function getuser(id,type) {
     return request({
         url: '/admin/check',
         method: 'get',
-        param:{
-            id:id,
-            type:type
+        params: {
+            id: id,
+            type: type,
         }
     })
 }
