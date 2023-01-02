@@ -19,7 +19,12 @@
             </el-menu>
           </el-col>
           <el-col :span="20">
-            
+            <div v-if="current_course != null">
+
+            </div>
+            <div v-else>
+              <el-empty description="请选择课程"></el-empty>
+            </div>
           </el-col>
         </el-row>
     </div>
