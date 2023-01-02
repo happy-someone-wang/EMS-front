@@ -171,19 +171,33 @@ export default {
       this.dialogImageUrl = file.url;
       this.img_dialogVisible = true;
     },
-    save(){
-      console.log("原始文件数据",this.file_data)
-      this.iconformData.img = this.file_data.raw;//图片的url
-      this.iconformData.name = this.file_data.name;//图片的名字
-      const formData = new FormData()
-      for (const key in this.iconformData) {
-        formData.append(key, this.iconformData[key]);//传参改为formData格式
+    async save(){
+      let formdata = new FormData();
+      formdata.append("avatar",this.file_data.raw,this.file_data.name)
+      formdata.append("id",this.userId)
+      formdata.append("role",this.roles[0])
+
+      let config = {
+        headers:{
+            "Content-Type": "multipart/form-data",
+        },
       }
-      console.log(this.iconformData);
-      uplaodAvatar(formData, this.userId, this.roles[0]).then(res=>{
+      await this.$axios.put("http://localhost:7999/person/avatar",formdata,config)
+      .then(res=>{
         console.log(res);
       })
-    }
+      await getStudentInfo(this.userId, this.roles[0]).then((res) => {
+        console.log(res);
+        this.form = res.data;
+        if (this.form.avatar == null) {
+          console.log("设置默认头像");
+          this.form.avatar =
+            "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png";
+        }
+      });
+      this.dialogVisible = false;
+    },
+    
   },
 };
 </script>
