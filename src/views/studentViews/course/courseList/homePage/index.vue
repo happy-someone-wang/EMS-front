@@ -156,10 +156,37 @@ export default {
       console.log("当前的课程信息为", res.data);
       this.courseTable = res.data;
       console.log("当前的课程信息为", this.courseTable);
+      this.courseTable.forEach(element => {
+        element.startTime = this.formatDate(element.startTime);
+        element.endTime = this.formatDate(element.endTime);
+      });
     });
   },
 
   methods: {
+    // 格式化Date方法
+    formatDate(time, format = "YY-MM-DD hh:mm:ss") {
+      var date = new Date(time);
+
+      var year = date.getFullYear(),
+        month = date.getMonth() + 1, //月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+      var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
+        return "0" + index;
+      });
+      var newTime = format
+        .replace(/YY/g, year)
+        .replace(/MM/g, preArr[month] || month)
+        .replace(/DD/g, preArr[day] || day)
+        .replace(/hh/g, preArr[hour] || hour)
+        .replace(/mm/g, preArr[min] || min)
+        .replace(/ss/g, preArr[sec] || sec);
+
+      return newTime;
+    },
     ResetButtonClick() {
       console.log("Reset");
     },

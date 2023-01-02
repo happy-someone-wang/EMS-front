@@ -39,7 +39,7 @@
                   <el-button
                     class="button-item"
                     type="text"
-                    @click="ShowDetails(info.noticeId)"
+                    @click="ShowDetails(info.notice.noticeId)"
                     >查看详情</el-button
                   >
                 </el-col>
@@ -56,6 +56,18 @@
         
       </el-col>
     </el-row>
+    <el-dialog
+      v-if="current_info != null"
+      :title="current_info.notice.title"
+      :visible.sync="dialogVisible"
+    >
+      <div class="content-item" v-html="current_info.notice.content"></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -72,6 +84,8 @@ export default {
       courseTable: [],
       current_course: null,
       courseInfo: "",
+      current_info:null,
+      dialogVisible:false,
     };
   },
 
@@ -120,7 +134,8 @@ export default {
         console.log("当前所选择的课程的课程通知为", res);
         this.courseInfo = res.data.notices;
         console.log("课程通知为", this.courseInfo);
-        if (!this.courseInfo == undefined) {
+        if (!(this.courseInfo == undefined)) {
+          console.log("修改时间")
           this.courseInfo.forEach((element) => {
             element.notice.createTime = this.formatDate(
               element.notice.createTime
@@ -128,6 +143,17 @@ export default {
           });
         }
       });
+    },
+    ShowDetails(noticeId) {
+      console.log("当前选择的系统通知Id", noticeId);
+      this.courseInfo.forEach((element) => {
+        console.log(element.notice.noticeId);
+        if (element.notice.noticeId == noticeId) {
+          console.log("ok")
+          this.current_info = element;
+        }
+      });
+      this.dialogVisible = true;
     },
   },
 };
