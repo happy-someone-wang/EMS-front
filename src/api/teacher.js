@@ -17,3 +17,13 @@ export function getTeacherCourseList(teacherId) {
         }
     })
 }
+
+export function getTeacherReportList(experimentId) {
+    return request({
+        url: '/report/getall',
+        method:'get',
+        params: {
+            experimentId: experimentId
+        }
+    })
+}
