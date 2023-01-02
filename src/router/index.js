@@ -257,7 +257,7 @@ export const asyncRoutes = [
         path: 'experiment',
         name: 'Experiment',
         component: () => import('@/views/teacherViews/course/experimentItem/index'),
-        meta: { title: '实验项目', icon: 'el-icon-s-claim' }
+        meta: { title: '发布实验', icon: 'el-icon-s-claim' }
       },
       {
         path: 'todoList',

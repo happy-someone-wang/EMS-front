@@ -18,12 +18,16 @@ export function getTeacherCourseList(teacherId) {
     })
 }
 
-export function getTeacherReportList(experimentId) {
+export function postExperiment(name,courseId,createTime,deadline,introduction) {
     return request({
-        url: '/report/getall',
-        method:'get',
+        url: '/experiment/postExperiment',
+        method:'post',
         params: {
-            experimentId: experimentId
+            name: name,
+            courseId: courseId,
+            createTime: createTime,
+            deadline: deadline,
+            introduction: introduction,
         }
     })
 }
