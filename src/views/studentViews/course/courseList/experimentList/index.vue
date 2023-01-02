@@ -54,11 +54,28 @@
             </el-tab-pane>
 
             <el-tab-pane label="实验流程">
-              <div style="overflow: auto; height: 600px">
-                <pdf v-for="i in numPages" :key="i" :src="src" :page="i"></pdf>
+              <div style="overflow: auto; height: 600px" v-if="this.currentExperiment.content!=null">
+                <pdf v-for="i in numPages" :key="i" :src="src" :page="i" ></pdf>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="实验报告">实验报告</el-tab-pane>
+            <el-tab-pane label="实验报告">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin: 15px;
+                "
+              >
+                实验报告状态：{{ reportInfo.status }}
+                <el-button type="primary" size="small" plain @click="submit"
+                  >提交报告</el-button
+                >
+              </div>
+              <indexVue
+                @getInput="getNew"
+                :value="reportInfo.reportList[0].content"
+              ></indexVue>
+            </el-tab-pane>
           </el-tabs>
         </div>
         <div v-else>
@@ -70,12 +87,24 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import indexVue from "@/components/Tinymce/index.vue";
 import pdf from "vue-pdf";
-import { getExperimentList } from "@/api/student";
+import {
+  getExperimentList,
+  getReport,
+  postReport,
+  putReport,
+  studentSignIn,
+} from "@/api/student";
 export default {
   name: "ExperimentList",
   components: {
     pdf,
+    indexVue,
+  },
+  computed: {
+    ...mapGetters(["userId", "roles"]),
   },
   data() {
     return {
@@ -93,6 +122,8 @@ export default {
       src: null,
       courseId: null,
       currentExperiment: null,
+      reportInfo: null,
+      newValue: null,
     };
   },
 
@@ -149,6 +180,35 @@ export default {
       this.src.promise.then((pdf) => {
         this.numPages = pdf.numPages;
       });
+
+      getReport(this.currentExperiment.experimentId, this.userId).then(
+        (res) => {
+          console.log("获取到的报告信息为", res);
+          this.reportInfo = res.data;
+        }
+      );
+    },
+    getNew(newValue) {
+      this.newValue = newValue;
+    },
+    submit(newValue) {
+      if (this.reportInfo.status == "已提交报告") {
+        putReport(
+          this.reportInfo.reportList[0].reportId,
+          this.userId,
+          this.newValue
+        ).then((res) => {
+          console.log("提交报告！");
+        });
+      } else {
+        postReport(
+          this.currentExperiment.experimentId,
+          this.userId,
+          this.newValue
+        ).then((res) => {
+          console.log("提交报告！");
+        });
+      }
     },
   },
 };

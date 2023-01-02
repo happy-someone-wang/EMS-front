@@ -99,16 +99,6 @@ export function getStudentInfo(id, role) {
 
 
 
-export function getReport(experimentId, studentId) {
-    return request({
-        url: '/report/getone',
-        method: 'get',
-        params: {
-            experimentId: experimentId,
-            studentId: studentId
-        }
-    })
-}
 
 export function getSystemInfo() {
     return request({
@@ -166,6 +156,41 @@ export function studentSignIn(sign, studentId, signTime) {
             courseId: sign.course_id,
             signTime: signTime,
             signIn: sign.signIn,
+        }
+    })
+}
+
+export function getReport(experimentId,studentId) {
+    return request({
+        url: '/report/getone',
+        method: 'get',
+        params: {
+            experimentId: experimentId,
+            studentId: studentId,
+        }
+    })
+}
+
+export function putReport(reportId,studentId,content) {
+    return request({
+        url: '/report/update',
+        method: 'post',
+        params: {
+            reportId: reportId,
+            studentId: studentId,
+            content:content,
+        }
+    })
+}
+
+export function postReport(experimentId,studentId,content) {
+    return request({
+        url: '/report/add',
+        method: 'post',
+        params: {
+            experimentId: experimentId,
+            studentId: studentId,
+            content:content,
         }
     })
 }
