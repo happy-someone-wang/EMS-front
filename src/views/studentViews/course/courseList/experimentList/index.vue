@@ -72,9 +72,6 @@
 <script>
 import pdf from "vue-pdf";
 import { getExperimentList } from "@/api/student";
-var loadingTask = pdf.createLoadingTask(
-  "https://tj-etms.oss-cn-shanghai.aliyuncs.com/2023/01/02/109412bf28254b8b8ce303a84010cd09/file"
-);
 export default {
   name: "ExperimentList",
   components: {
@@ -152,17 +149,6 @@ export default {
       this.src.promise.then((pdf) => {
         this.numPages = pdf.numPages;
       });
-    },
-    getNumPages(url) {
-      var loadingTask = pdf.createLoadingTask(url);
-      loadingTask
-        .then((pdf) => {
-          this.url = loadingTask;
-          this.numPages = pdf.numPages;
-        })
-        .catch((err) => {
-          console.error("pdf加载失败");
-        });
     },
   },
 };

@@ -133,11 +133,37 @@ export function uplaodAvatar(avatar, id, role) {
     return request({
         url: '/notice/courseNoticeList',
         method: 'get',
+        data:{
+            avatar: avatar
+        },
         params: {
-            avatar: avatar,
             id: id,
             role: role
         }
     })
 }
 
+export function courseSignList(courseId, studentId) {
+    return request({
+        url: '/grade/courseSignList',
+        method: 'get',
+        params: {
+            courseId: courseId,
+            studentId: studentId
+        }
+    })
+}
+
+export function studentSignIn(sign, studentId, signTime) {
+    return request({
+        url: '/grade/studentsign',
+        method: 'post',
+        data: {
+            signId: sign.sign_id,
+            studentId: studentId,
+            courseId: sign.course_id,
+            signTime: signTime,
+            signIn: sign.signIn,
+        }
+    })
+}
