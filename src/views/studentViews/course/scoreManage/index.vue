@@ -1,56 +1,62 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="7">
-        <el-cascader-panel
-          style="height: 100vh"
-          :options="options"
-        ></el-cascader-panel>
-      </el-col>
-      <el-col :span="8">
-        成绩管理
-      </el-col>
-    </el-row>
-  </div>
+    <div>
+        <el-row class="tac">
+          <el-col :span="4">
+            <el-menu
+              style="height: 100vh"
+              :default-active="current_exp"
+              class="el-menu-vertical-demo"
+              @select="selectCourse"
+            >
+              <el-menu-item
+                v-for="course in courseTable"
+                :key="course.courseId"
+                :index="course.courseId"
+              >
+                <i class="el-icon-setting"></i>
+                <span slot="title">{{ course.name }}</span>
+              </el-menu-item>
+            </el-menu>
+          </el-col>
+          <el-col :span="20">
+            
+          </el-col>
+        </el-row>
+    </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { getStudentCourseList } from "@/api/student"
 export default {
-  name: "EMSIndex",
+    name: 'EMSIndex',
+    computed: {
+      ...mapGetters(["userId", "roles"]),
+    },
+    data() {
+        return {
+            courseTable: [],
+            current_exp: "",
+        };
+    },
 
-  data() {
-    return {
-      options: [
-        {
-          value: "zhinan",
-          label: "软件工程管理与经济",
-          children: [
-            {
-              value: "shejiyuanze",
-              label: "需求与供给实验",
-            },
-            {
-              value: "daohang",
-              label: "财务分析实验",
-            },
-            {
-              value: "daohan",
-              label: "软件规模度量实验",
-            },
-          ],
-        },
-      ],
-    };
-  },
+    mounted() {
+        console.log("当前我的ID和身份为", this.userId, this.roles);
+        getStudentCourseList(this.userId).then((res) => {
+          console.log("当前的课程信息为", res.data);
+          this.courseTable = res.data;
+          console.log("当前的课程信息为", this.courseTable);
+        });
+    },
 
-  mounted() {},
-
-  methods: {},
+    methods: {
+        selectCourse(index){
+            console.log(index);
+        }
+    },
 };
 </script>
 
 <style lang="scss" scoped>
-.el-cascader-panel {
-  width: auto;
-}
+
 </style>

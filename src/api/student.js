@@ -78,13 +78,35 @@ export function resetPassword(userId, role, password) {
 
 export function getExperimentList(courseId) {
     return request({
-        url: 'experiment/getExperimentList',
+        url: '/experiment/getExperimentList',
         method: 'get',
         params: {
-            courseId:courseId
+            courseId: courseId
+        }
+    })
+}
+
+export function getStudentInfo(id, role) {
+    return request({
+        url: '/person',
+        method: 'get',
+        params: {
+            id: id,
+            role: role
         }
     })
 }
 
 
+
+export function getReport(experimentId, studentId) {
+    return request({
+        url: '/report/getone',
+        method: 'get',
+        params: {
+            experimentId: experimentId,
+            studentId: studentId
+        }
+    })
+}
 

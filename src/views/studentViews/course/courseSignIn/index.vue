@@ -6,56 +6,53 @@
               style="height: 100vh"
               :default-active="current_exp"
               class="el-menu-vertical-demo"
-              @select="selectExp"
+              @select="selectCourse"
             >
               <el-menu-item
-                v-for="experiment in experiemntList"
-                :key="experiment.id"
-                :index="experiment.id"
+                v-for="course in courseTable"
+                :key="course.courseId"
+                :index="course.courseId"
               >
                 <i class="el-icon-setting"></i>
-                <span slot="title">{{ experiment.name }}</span>
+                <span slot="title">{{ course.name }}</span>
               </el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="20">
-            <div v-if="current_exp != ''">
-              <el-tabs type="card">
-                <el-tab-pane label="实验信息">实验信息</el-tab-pane>
-                <el-tab-pane label="实验流程">实验流程</el-tab-pane>
-                <el-tab-pane label="实验报告">实验报告</el-tab-pane>
-              </el-tabs>
-            </div>
-            <div v-else>
-              <el-empty description="请选择课程"></el-empty>
-            </div>
+            
           </el-col>
         </el-row>
     </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { getStudentCourseList } from "@/api/student"
 export default {
     name: 'EMSIndex',
-
+    computed: {
+      ...mapGetters(["userId", "roles"]),
+    },
     data() {
         return {
-            experiemntList: [
-              {
-                id: "1",
-                name: "软件工程",
-              },
-            ],
+            courseTable: [],
             current_exp: "",
         };
     },
 
     mounted() {
-        
+        console.log("当前我的ID和身份为", this.userId, this.roles);
+        getStudentCourseList(this.userId).then((res) => {
+          console.log("当前的课程信息为", res.data);
+          this.courseTable = res.data;
+          console.log("当前的课程信息为", this.courseTable);
+        });
     },
 
     methods: {
-        
+        selectCourse(index){
+            console.log(index);
+        }
     },
 };
 </script>

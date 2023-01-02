@@ -122,26 +122,6 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/student/person',
-    component: Layout,
-    meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['student'] },
-    children: [
-      {
-        path: 'personInfo',
-        name: 'PersonInfo',
-        component: () => import('@/views/studentViews/person/personInfo/index'),
-        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
-      },
-      {
-        path: 'accountManage',
-        name: 'AccountManage',
-        component: () => import('@/views/studentViews/person/accountManage/index'),
-        meta: { title: '账号管理', icon: 'el-icon-s-finance' }
-      }
-    ]
-  },
-
-  {
     path: '/student/notice',
     component: Layout,
     name: 'Notice',
@@ -159,6 +139,27 @@ export const asyncRoutes = [
         component: () => import('@/views/studentViews/notice/courseInfo/index'),
         meta: { title: '实验课程通知', icon: 'el-icon-message-solid' }
       },
+    ]
+  },
+
+  {
+    path: '/student/person',
+    component: Layout,
+    meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['student'] },
+    children: [
+      {
+        path: 'personInfo',
+        name: 'PersonInfo',
+        component: () => import('@/views/studentViews/person/personInfo/index'),
+        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
+      },
+      {
+        path: 'accountManage',
+        name: 'AccountManage',
+        hidden: true,
+        component: () => import('@/views/studentViews/person/accountManage/index'),
+        meta: { title: '账号管理', icon: 'el-icon-s-finance' }
+      }
     ]
   },
 ]
