@@ -106,14 +106,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { getStudentCourseList } from '@/api/student'
+import { mapGetters } from "vuex";
+import { getStudentCourseList } from "@/api/student";
 export default {
   name: "HomePage",
   computed: {
-    ...mapGetters([
-      'userId','roles'
-    ])
+    ...mapGetters(["userId", "roles"]),
   },
   data() {
     return {
@@ -146,19 +144,19 @@ export default {
         },
       ],
 
-      year:"",
-      term:"",
+      year: "",
+      term: "",
+      currentCourseId: null,
     };
   },
 
   mounted() {
-    console.log("当前我的ID和身份为",this.userId,this.roles)
-    getStudentCourseList(this.userId)
-    .then(res=>{
-      console.log("当前的课程信息为",res.data);
+    console.log("当前我的ID和身份为", this.userId, this.roles);
+    getStudentCourseList(this.userId).then((res) => {
+      console.log("当前的课程信息为", res.data);
       this.courseTable = res.data;
-      console.log("当前的课程信息为",this.courseTable);
-    })
+      console.log("当前的课程信息为", this.courseTable);
+    });
   },
 
   methods: {
@@ -172,6 +170,7 @@ export default {
       console.log(row);
       this.$router.push({
         name: "ExperimentList",
+        query: row.courseId,
       });
     },
   },

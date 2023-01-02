@@ -10,8 +10,8 @@
         >
           <el-menu-item
             v-for="experiment in experiemntList"
-            :key="experiment.id"
-            :index="experiment.id"
+            :key="experiment.experimentId"
+            :index="experiment.experimentId"
           >
             <i class="el-icon-setting"></i>
             <span slot="title">{{ experiment.name }}</span>
@@ -19,17 +19,43 @@
         </el-menu>
       </el-col>
       <el-col :span="20">
-        <div v-if="current_exp != ''">
+        <div v-if="currentExperiment != null">
           <el-tabs type="card">
-            <el-tab-pane label="实验信息">实验信息</el-tab-pane>
+            <el-tab-pane label="实验信息">
+              <div class="condition-title" style="margin: 30px">
+                实验基本信息
+              </div>
+              <el-descriptions style="margin: 30px">
+                <el-descriptions-item label="实验名称">{{
+                  currentExperiment.name
+                }}</el-descriptions-item>
+                <el-descriptions-item label="实验创建时间">{{
+                  currentExperiment.createTime
+                }}</el-descriptions-item>
+                <el-descriptions-item label="实验截止时间">{{
+                  currentExperiment.deadline
+                }}</el-descriptions-item>
+                <el-descriptions-item label="实验状态">
+                  <el-tag
+                    v-if="currentExperiment.state == '进行中'"
+                    size="small"
+                    type="success"
+                    >{{ currentExperiment.state }}</el-tag
+                  >
+                  <el-tag v-else size="small" type="danger">{{
+                    currentExperiment.state
+                  }}</el-tag>
+                </el-descriptions-item>
+              </el-descriptions>
+              <div class="condition-title" style="margin: 30px">实验简介</div>
+              <div style="margin: 30px">
+                {{ currentExperiment.introduction }}
+              </div>
+            </el-tab-pane>
+
             <el-tab-pane label="实验流程">
-              <div style="overflow:auto;height:600px;">
-                <pdf
-                    v-for="i in numPages"
-                    :key="i"
-                    :src="src"
-                    :page="i"
-                ></pdf>
+              <div style="overflow: auto; height: 600px">
+                <pdf v-for="i in numPages" :key="i" :src="src" :page="i"></pdf>
               </div>
             </el-tab-pane>
             <el-tab-pane label="实验报告">实验报告</el-tab-pane>
@@ -45,7 +71,10 @@
 
 <script>
 import pdf from "vue-pdf";
-var loadingTask = pdf.createLoadingTask("/static/2.pdf");
+import { getExperimentList } from "@/api/student";
+var loadingTask = pdf.createLoadingTask(
+  "https://tj-etms.oss-cn-shanghai.aliyuncs.com/2023/01/02/109412bf28254b8b8ce303a84010cd09/file"
+);
 export default {
   name: "ExperimentList",
   components: {
@@ -55,36 +84,74 @@ export default {
     return {
       experiemntList: [
         {
-          id: "1",
-          name: "基本运算器实验",
-        },
-        {
-          id: "2",
-          name: "微程序控制器实验",
-        },
-        {
-          id: "3",
-          name: "CPU与简单模型机实验",
+          experimentId: "",
+          name: "",
+          creatimeTime: "",
+          endTime: "",
+          introduction: "",
         },
       ],
       current_exp: "",
       numPages: undefined,
-      src: loadingTask,
+      src: null,
+      courseId: null,
+      currentExperiment: null,
     };
   },
 
-  mounted() {
-    this.src.promise.then(pdf => {
-
-        this.numPages = pdf.numPages;
+  async mounted() {
+    this.courseId = this.$route.query;
+    await getExperimentList(this.courseId).then((res) => {
+      console.log("当前课程的实验信息", res);
+      this.experiemntList = res.data;
+      this.experiemntList.forEach((value, index) => {
+        if (Date.parse(value.deadline) > new Date()) {
+          value.state = "进行中";
+        } else {
+          value.state = "已结束";
+        }
+        // 将Date格式化
+        value.createTime = this.formatDate(value.createTime);
+        value.deadline = this.formatDate(value.deadline);
+      });
     });
-
   },
 
   methods: {
+    // 格式化Date方法
+    formatDate(time, format = "YY-MM-DD hh:mm:ss") {
+      var date = new Date(time);
+
+      var year = date.getFullYear(),
+        month = date.getMonth() + 1, //月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+      var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
+        return "0" + index;
+      });
+      var newTime = format
+        .replace(/YY/g, year)
+        .replace(/MM/g, preArr[month] || month)
+        .replace(/DD/g, preArr[day] || day)
+        .replace(/hh/g, preArr[hour] || hour)
+        .replace(/mm/g, preArr[min] || min)
+        .replace(/ss/g, preArr[sec] || sec);
+
+      return newTime;
+    },
     selectExp(index) {
       console.log(index);
-      this.current_exp = index;
+      this.experiemntList.forEach((element) => {
+        if (element.experimentId == index) {
+          this.currentExperiment = element;
+        }
+      });
+      this.src = pdf.createLoadingTask(this.currentExperiment.content);
+      this.src.promise.then((pdf) => {
+        this.numPages = pdf.numPages;
+      });
     },
     getNumPages(url) {
       var loadingTask = pdf.createLoadingTask(url);
@@ -102,4 +169,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.condition-title {
+  color: #2b3b4e;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  margin-bottom: 15px;
+}
 </style>

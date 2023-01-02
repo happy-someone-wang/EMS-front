@@ -73,6 +73,70 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
+    path: '/admin',
+    component: Layout,
+    name: 'Admin',
+    redirect: '/admin/useradd',
+    meta: { title: '管理中心', icon: 'el-icon-s-tools', roles: ['admin'] },
+    children: [
+      {
+        path: 'useradd',
+        name: 'Useradd',
+        component: () => import('@/views/adminViews/userAdd/index'),
+        meta: { title: '添加用户', icon: 'el-icon-s-marketing' },
+      },
+      {
+        path: 'userchange',
+        name: 'Userchange',
+        component: () => import('@/views/adminViews/userChange/index'),
+        meta: { title: '修改用户', icon: 'el-icon-s-claim' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/adminViews/userChange/homePage/index'),
+            hidden: true
+          },
+          {
+            path: 'change',
+            name: 'Change',
+            component: () => import('@/views/adminViews/userChange/change/index'),
+            meta: { title: '修改', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ]
+      },
+      {
+        path: 'notice',
+        name: 'Notice',
+        component: () => import('@/views/adminViews/notice/index'),
+        meta: { title: '系统通知', icon: 'el-icon-s-claim' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/adminViews/notice/homepage/index'),
+            hidden: true
+          },
+          {
+            path: 'detail',
+            name: 'Detail',
+            component: () => import('@/views/adminViews/notice/detail/index'),
+            meta: { title: '公告细节', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+          {
+            path: 'add',
+            name: 'Add',
+            component: () => import('@/views/adminViews/notice/add/index'),
+            meta: { title: '新增公告', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ],
+      },
+    ]
+  },
+  {
     path: '/student/course',
     component: Layout,
     name: 'Course',
@@ -110,7 +174,13 @@ export const asyncRoutes = [
         path: 'labReport',
         name: 'LabReport',
         component: () => import('@/views/studentViews/course/labReport/index'),
-        meta: { title: '实验报告', icon: 'form' }
+        meta: { title: '实验报告', icon: 'form' },
+      },
+      {
+        path: 'courseResource',
+        name: 'CourseResource',
+        component: () => import('@/views/studentViews/course/courseResource/index'),
+        meta: { title: '课程文件', icon: 'form' }
       },
       {
         path: 'scoreManage',
@@ -118,26 +188,6 @@ export const asyncRoutes = [
         component: () => import('@/views/studentViews/course/scoreManage/index'),
         meta: { title: '成绩管理', icon: 'el-icon-s-data' }
       },
-    ]
-  },
-
-  {
-    path: '/student/person',
-    component: Layout,
-    meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['student'] },
-    children: [
-      {
-        path: 'personInfo',
-        name: 'PersonInfo',
-        component: () => import('@/views/studentViews/person/personInfo/index'),
-        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
-      },
-      {
-        path: 'accountManage',
-        name: 'AccountManage',
-        component: () => import('@/views/studentViews/person/accountManage/index'),
-        meta: { title: '账号管理', icon: 'el-icon-s-finance' }
-      }
     ]
   },
 
@@ -179,7 +229,7 @@ export const asyncRoutes = [
             path: ':courseId',
             name: 'courseHome',
             component: () => import('@/views/teacherViews/course/courseList/courseHome/index'),
-            hidden:true
+            hidden: true
           }
         ]
       },
@@ -234,17 +284,29 @@ export const asyncRoutes = [
         path: 'personalInfo',
         name: 'PersonalInfo',
         component: () => import('@/views/teacherViews/person/personalInfo/index'),
-        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
+        path: '/student/person',
+        component: Layout,
+        meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['student'] },
+        children: [
+          {
+            path: 'personInfo',
+            name: 'PersonInfo',
+            component: () => import('@/views/studentViews/person/personInfo/index'),
+            meta: { title: '个人信息', icon: 'el-icon-s-custom' }
+          },
+          {
+            path: 'accountManage',
+            name: 'AccountManage',
+            component: () => import('@/views/teacherViews/person/accountManage/index'),
+            hidden: true,
+            component: () => import('@/views/studentViews/person/accountManage/index'),
+            meta: { title: '账号管理', icon: 'el-icon-s-finance' }
+          }
+        ]
       },
-      {
-        path: 'accountManage',
-        name: 'AccountManage',
-        component: () => import('@/views/teacherViews/person/accountManage/index'),
-        meta: { title: '账号管理', icon: 'el-icon-s-finance' }
-      }
-    ]
-  },
 
+    ]
+  }
 ]
 
 const createRouter = () => new Router({

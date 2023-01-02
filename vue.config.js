@@ -24,11 +24,11 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   // lintOnSave: process.env.NODE_ENV === 'development',
-  lintOnSave: false,
+  lintOnSave: true,
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -37,6 +37,7 @@ module.exports = {
       warnings: false,
       errors: false
     },
+<<<<<<< HEAD
     // before: require('./mock/mock-server.js'),
     // //跨域配置
     proxy: {
@@ -55,6 +56,9 @@ module.exports = {
         }
       }
     },
+=======
+    // before: require('./mock/mock-server.js')
+>>>>>>> main
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -64,6 +68,9 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    performance:{
+      hints:false
     }
   },
   chainWebpack(config) {
