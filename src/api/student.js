@@ -110,3 +110,12 @@ export function getReport(experimentId, studentId) {
     })
 }
 
+export function getSystemInfo() {
+    return request({
+        url: '/notice/systemNoticeList',
+        method: 'get',
+        params: {
+        }
+    })
+}
+
