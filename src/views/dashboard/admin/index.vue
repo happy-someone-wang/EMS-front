@@ -87,7 +87,19 @@ export default {
       };
     },
   
-    mounted() {},
+    mounted() {
+      console.log("加载")
+    //getusers()
+    this.$axios
+      .get('http://localhost:8084/admin/check?id=0&type=all')
+      .then((res) => {
+        this.userTable=res.data.users;
+      })
+      .catch((err) => {
+        //上传失败回调函数
+        console.log(err)
+      })
+    },
   
     methods: {
     },

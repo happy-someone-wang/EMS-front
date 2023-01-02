@@ -25,7 +25,7 @@
     <div class="preview-excel">
     <el-table class="listTable_ele"  v-show="listTable.length != 0" :data="listTable" stripe height="250" style="width:100%">
         <el-table-column prop="name" label="姓名" width="200" align="center"></el-table-column>
-        <el-table-column prop="sno" label="学号/工号" width="200" align="center"></el-table-column>
+        <el-table-column prop="id" label="学号/工号" width="200" align="center"></el-table-column>
         <el-table-column prop="type" label="类型" width="200" align="center"></el-table-column>
     </el-table>
     </div>
@@ -34,6 +34,7 @@
   
   <script>
   import * as XLSX from "xlsx";
+  import { adduser } from '@/api/admin'
   export default {
     name: "userAdd",
 
@@ -78,7 +79,7 @@
                 //这里的rowTable的属性名注意要与上面表格的prop一致
                 //sheetArray的属性名与上传的表格的列名一致
                 rowTable.name = sheetArray[item].姓名;
-                rowTable.sno = sheetArray[item].学号;
+                rowTable.id = sheetArray[item].学号;
                 rowTable.type = sheetArray[item].类型;
                 this.listTable.push(rowTable);
               }
@@ -100,14 +101,19 @@
       };
 
       let Jsondata=JSON.stringify(this.listTable)
+      //adduser(Jsondata)
       // 自定义上传
       this.$axios
-      .post('http://localhost:7000/admin/add', Jsondata,config)
+      .post('http://localhost:8084/admin/add', Jsondata,config)
       .then((res) => {
-      //上传成功回调函数
+
+      alert(res.data.status+",成功数量为："+res.data.successNum);
+      console.log(res)
+      this.$router.go (-1);
       })
       .catch((err) => {
       //上传失败回调函数
+      console.log(err)
       })
     },
   }

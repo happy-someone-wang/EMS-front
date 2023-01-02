@@ -1,5 +1,5 @@
 <template>
-   <el-form :label-position='right' label-width="80px" :model="formLabelAlign">
+   <el-form label-width="80px" :model="formLabelAlign">
   <el-form-item label="学号/工号">
     <el-input v-model="formLabelAlign.id"></el-input>
   </el-form-item>
@@ -25,16 +25,48 @@
     data() {
       return {
         formLabelAlign: {
-          name: '王杨乐',
-          id: this.$route.query.id,
-          type: '学生',
-          email: '1759469055@qq.com',
         }
       };
     },
+    
+    mounted() {
+    console.log("加载")
+    getuser(this.$route.query.id,this.$route.query.type)
+    // this.$axios
+    //   .get('http://localhost:8084/admin/check?id='+this.$route.query.id+'&type='+this.$route.query.type)
+      .then((res) => {
+        console.log(res.data);
+        this.formLabelAlign=res.data.user;
+      })
+      .catch((err) => {
+        //上传失败回调函数
+        console.log(err)
+      })
+  },
+
     methods: {
       onSubmit() {
         console.log('submit!');
+        let config = {
+        headers: {
+        'Content-Type':'application/json'
+        }
+      };
+
+      let Jsondata=JSON.stringify(this.formLabelAlign)
+      //adduser(Jsondata)
+      // 自定义上传
+      this.$axios
+      .post('http://localhost:8084/admin/update', Jsondata,config)
+      .then((res) => {
+
+      alert(res.data.status);
+      console.log(res)
+      })
+      .catch((err) => {
+      //上传失败回调函数
+      console.log(err)
+      })
       }
     }
 

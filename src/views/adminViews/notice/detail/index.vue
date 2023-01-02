@@ -1,7 +1,7 @@
 <template>
   <div class="views">
     <el-card class="card-item">
-      <div class="condition-title">新增公告</div>
+      <div class="condition-title">修改公告</div>
       <el-form ref="form" :model="form" label-width="80px">
   <el-form-item label="公告标题">
     <el-input v-model="form.title"></el-input>
@@ -19,7 +19,7 @@
     <el-input type="textarea" v-model="form.content"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+    <el-button type="primary" @click="onSubmit">立即更新</el-button>
     <el-button @click="$router.go(-1)">取消</el-button>
   </el-form-item>
 </el-form>

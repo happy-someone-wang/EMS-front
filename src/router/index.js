@@ -165,7 +165,13 @@ export const asyncRoutes = [
         path: 'labReport',
         name: 'LabReport',
         component: () => import('@/views/studentViews/course/labReport/index'),
-        meta: { title: '实验报告', icon: 'form' }
+        meta: { title: '实验报告', icon: 'form' },
+      },
+      {
+        path: 'courseResource',
+        name: 'CourseResource',
+        component: () => import('@/views/studentViews/course/courseResource/index'),
+        meta: { title: '课程文件', icon: 'form' }
       },
       {
         path: 'scoreManage',
