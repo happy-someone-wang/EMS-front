@@ -11,7 +11,7 @@ import tinymce from 'tinymce/tinymce' //tinymce默认hidden，不引入不显示
 import Editor from '@tinymce/tinymce-vue'
 // import 'tinymce/models/dom/model'
 import 'tinymce/themes/silver'
-// import 'tinymce/icons/default'
+import 'tinymce/icons/default'
 
 import 'tinymce/plugins/image'// 插入上传图片插件
 import 'tinymce/plugins/media'// 插入视频插件
