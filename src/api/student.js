@@ -119,3 +119,13 @@ export function getSystemInfo() {
     })
 }
 
+export function getCourseInfo(courseId) {
+    return request({
+        url: '/notice/courseNoticeList',
+        method: 'get',
+        params: {
+            courseId:courseId
+        }
+    })
+}
+
