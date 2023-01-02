@@ -17,3 +17,17 @@ export function getTeacherCourseList(teacherId) {
         }
     })
 }
+
+export function postExperiment(name,courseId,createTime,deadline,introduction) {
+    return request({
+        url: '/experiment/postExperiment',
+        method:'post',
+        params: {
+            name: name,
+            courseId: courseId,
+            createTime: createTime,
+            deadline: deadline,
+            introduction: introduction,
+        }
+    })
+}
