@@ -9,7 +9,7 @@
 
 import tinymce from 'tinymce/tinymce' //tinymce默认hidden，不引入不显示
 import Editor from '@tinymce/tinymce-vue'
-// import 'tinymce/models/dom/model'
+//import 'tinymce/models/dom/model'
 import 'tinymce/themes/silver'
 import 'tinymce/icons/default'
 

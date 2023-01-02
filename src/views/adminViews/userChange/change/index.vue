@@ -59,7 +59,7 @@ export default {
       //adduser(Jsondata)
       // 自定义上传
       this.$axios
-        .post('http://localhost:7999/admin/update', Jsondata, config)
+        .post('http://123.60.156.14:7999/admin/update', Jsondata, config)
         .then((res) => {
           alert(res.data.status);
           console.log(res)
