@@ -19,7 +19,6 @@
             </el-menu>
           </el-col>
           <el-col :span="20">
-            
           </el-col>
         </el-row>
     </div>
