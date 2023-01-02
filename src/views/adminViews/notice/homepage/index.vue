@@ -3,12 +3,12 @@
         <div class="condition-title">系统公告</div>
         <el-table
           ref="singleTable"
-          :data="noticeList"
+          :data="notice"
           highlight-current-row
           style="width: 100%"
           v-loading="loading"
         >
-        <el-table-column prop="notice_id" label="ID" width="300">
+        <el-table-column prop="noticeId" label="ID" width="300">
           </el-table-column>
           <el-table-column prop="title" label="标题" width="400">
           </el-table-column>

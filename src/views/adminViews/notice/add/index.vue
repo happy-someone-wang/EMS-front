@@ -35,18 +35,28 @@ export default {
 methods: {
     onSubmit() {        
       console.log(this.form);
-      postnotice(this.form)
+      let config = {
+        headers: {
+        'Content-Type':'application/json'
+        }
+      };
+
+      let Jsondata=JSON.stringify(this.form)
+      //adduser(Jsondata)
+      // 自定义上传
+      this.$axios
+      .post('http://localhost:8082/notice/systemNotice', Jsondata,config)
       .then((res) => {
-        console.log(res);
+      console.log(res)
+      this.$router.go (-1);
       })
       .catch((err) => {
-        //上传失败回调函数
-        console.log(err)
+      //上传失败回调函数
+      console.log(err)
       })
-      },
-    }
-    
-};
+    },
+  }
+}
 </script>
 
 <style lang="scss" scoped>
