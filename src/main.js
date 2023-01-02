@@ -18,6 +18,9 @@ Vue.prototype.$axios = axios;   //axios跟很多第三方模块不同的一点�
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// 动画 animate.css
+import animated from "animate.css";
+Vue.use(animated)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
