@@ -174,6 +174,14 @@ export const asyncRoutes = [
         name: 'CourseList',
         component: () => import('@/views/teacherViews/course/courseList/index'),
         meta: { title: '我的授课', icon: 'el-icon-s-marketing' },
+        children: [
+          {
+            path: ':courseId',
+            name: 'courseHome',
+            component: () => import('@/views/teacherViews/course/courseList/courseHome/index'),
+            hidden:true
+          }
+        ]
       },
       {
         path: 'experiment',

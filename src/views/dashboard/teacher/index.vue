@@ -102,7 +102,7 @@ export default {
     },
 
     mounted() {
-        this.getTopNotice()
+        // this.getTopNotice()
     },
 
     methods: {
