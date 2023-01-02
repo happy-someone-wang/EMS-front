@@ -72,6 +72,70 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
+    {
+    path: '/admin',
+    component: Layout,
+    name: 'Admin',
+    redirect: '/admin/useradd',
+    meta: { title: '管理中心', icon: 'el-icon-s-tools', roles: ['admin'] },
+    children: [
+      {
+        path: 'useradd',
+        name: 'Useradd',
+        component: () => import('@/views/adminViews/userAdd/index'),
+        meta: { title: '添加用户', icon: 'el-icon-s-marketing' },
+      },
+      {
+        path: 'userchange',
+        name: 'Userchange',
+        component: () => import('@/views/adminViews/userChange/index'),
+        meta: { title: '修改用户', icon: 'el-icon-s-claim' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/adminViews/userChange/homePage/index'),
+            hidden: true
+          },
+          {
+            path: 'change',
+            name: 'Change',
+            component: () => import('@/views/adminViews/userChange/change/index'),
+            meta: { title: '修改', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ]
+      },
+      {
+        path: 'notice',
+        name: 'Notice',
+        component: () => import('@/views/adminViews/notice/index'),
+        meta: { title: '系统通知', icon: 'el-icon-s-claim' },
+        children: [
+          {
+            path: '',
+            name: 'HomePage',
+            component: () => import('@/views/adminViews/notice/homepage/index'),
+            hidden: true
+          },
+          {
+            path: 'detail',
+            name: 'Detail',
+            component: () => import('@/views/adminViews/notice/detail/index'),
+            meta: { title: '公告细节', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+          {
+            path: 'add',
+            name: 'Add',
+            component: () => import('@/views/adminViews/notice/add/index'),
+            meta: { title: '新增公告', icon: 'el-icon-s-marketing' },
+            hidden: true
+          },
+        ],
+      },
+    ]
+  },
   {
     path: '/student/course',
     component: Layout,
@@ -110,7 +174,13 @@ export const asyncRoutes = [
         path: 'labReport',
         name: 'LabReport',
         component: () => import('@/views/studentViews/course/labReport/index'),
-        meta: { title: '实验报告', icon: 'form' }
+        meta: { title: '实验报告', icon: 'form' },
+      },
+      {
+        path: 'courseResource',
+        name: 'CourseResource',
+        component: () => import('@/views/studentViews/course/courseResource/index'),
+        meta: { title: '课程文件', icon: 'form' }
       },
       {
         path: 'scoreManage',

@@ -12,6 +12,8 @@ import '@/assets/css/global.css'
 import App from './App'
 import store from './store'
 import router from './router'
+import axios from "axios";      //引入axios
+Vue.prototype.$axios = axios;   //axios跟很多第三方模块不同的一点是它不能直接使用use方法，而是用这种方法
 
 import '@/icons' // icon
 import '@/permission' // permission control
