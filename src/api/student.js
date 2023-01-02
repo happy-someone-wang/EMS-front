@@ -131,11 +131,13 @@ export function getCourseInfo(courseId) {
 
 export function uplaodAvatar(avatar, id, role) {
     return request({
-        url: '/notice/courseNoticeList',
-        method: 'get',
-        data:{
-            avatar: avatar
+        url: '/person/avatar',
+        method: 'put',
+        headers:{
+            "Content-Type": "multipart/form-data",
         },
+        data: {
+            avatar:avatar},
         params: {
             id: id,
             role: role

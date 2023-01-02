@@ -110,6 +110,7 @@ export default {
       picture_amount: 0,
       // 上传的文件列表
       fileList: [],
+      iconformData:{},
     };
   },
 
@@ -171,7 +172,15 @@ export default {
       this.img_dialogVisible = true;
     },
     save(){
-      uplaodAvatar(this.file_data, this.userId, this.roles[0]).then(res=>{
+      console.log("原始文件数据",this.file_data)
+      this.iconformData.img = this.file_data.raw;//图片的url
+      this.iconformData.name = this.file_data.name;//图片的名字
+      const formData = new FormData()
+      for (const key in this.iconformData) {
+        formData.append(key, this.iconformData[key]);//传参改为formData格式
+      }
+      console.log(this.iconformData);
+      uplaodAvatar(formData, this.userId, this.roles[0]).then(res=>{
         console.log(res);
       })
     }
