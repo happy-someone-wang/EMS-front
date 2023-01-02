@@ -124,7 +124,19 @@ export function getCourseInfo(courseId) {
         url: '/notice/courseNoticeList',
         method: 'get',
         params: {
-            courseId:courseId
+            courseId: courseId
+        }
+    })
+}
+
+export function uplaodAvatar(avatar, id, role) {
+    return request({
+        url: '/notice/courseNoticeList',
+        method: 'get',
+        params: {
+            avatar: avatar,
+            id: id,
+            role: role
         }
     })
 }
