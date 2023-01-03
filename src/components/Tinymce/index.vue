@@ -11,7 +11,7 @@ import tinymce from 'tinymce/tinymce' //tinymce默认hidden，不引入不显示
 import Editor from '@tinymce/tinymce-vue'
 //import 'tinymce/models/dom/model'
 import 'tinymce/themes/silver'
-// import 'tinymce/icons/default'
+import 'tinymce/icons/default'
 import axios from 'axios'
 
 import 'tinymce/plugins/image'// 插入上传图片插件
@@ -72,7 +72,7 @@ export default {
                 images_upload_handler: (blobInfo,success,failure) => {
                     const p = new Promise((resolve, reject) => {
                         let formData = { 'file': blobInfo.base64(), 'fileName': blobInfo.filename() }
-                        axios.post('http://localhost:7999/notice/image',formData)
+                        axios.post('http://123.60.156.14:7999/notice/image',formData)
                             .then((res) => {
                                 // resolve(res.data.location)
                                 success(res.data.location)
