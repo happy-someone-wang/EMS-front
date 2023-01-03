@@ -12,6 +12,7 @@ import Editor from '@tinymce/tinymce-vue'
 // import 'tinymce/models/dom/model'
 import 'tinymce/themes/silver'
 // import 'tinymce/icons/default'
+import axios from 'axios'
 
 import 'tinymce/plugins/image'// 插入上传图片插件
 import 'tinymce/plugins/media'// 插入视频插件
@@ -68,24 +69,18 @@ export default {
                     })
                 },
                 // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
-                images_upload_handler: (blobInfo, progress) => {
+                images_upload_handler: (blobInfo,success,failure) => {
                     const p = new Promise((resolve, reject) => {
-                        // axios.post('http://localhost:7999/file',formData)
-                        //     .then((res) => {
-                        //         resolve(res.data.location)
-                        //     }).catch(() => {
-                        //         reject('Image upload failed due to a XHR Transport error. Code: ')
-                        //         this.$message.error("上传图片出错")
-                        //     })
                         let formData = { 'file': blobInfo.base64(), 'fileName': blobInfo.filename() }
-                        uploadFile(formData).then((res) => {
-                            resolve(res.data)
-                            console.log(res.data)
-                        }).catch((err) => {
-                            reject('Image upload failed due to a XHR Transport error. Code: ')
-                            this.$message.error("上传图片出错")
-                            console.log(err)
-                        })
+                        axios.post('http://localhost:7999/notice/image',formData)
+                            .then((res) => {
+                                // resolve(res.data.location)
+                                success(res.data.location)
+                                console.log("res.data = ",res.data)
+                            }).catch(() => {
+                                failure('Image upload failed due to a XHR Transport error. Code: ')
+                                this.$message.error("上传图片出错")
+                            })
                     })
                     return p
                 }

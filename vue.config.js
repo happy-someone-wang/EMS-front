@@ -37,7 +37,6 @@ module.exports = {
       warnings: false,
       errors: false
     },
-<<<<<<< HEAD
     // before: require('./mock/mock-server.js'),
     // //跨域配置
     proxy: {
@@ -56,9 +55,6 @@ module.exports = {
         }
       }
     },
-=======
-    // before: require('./mock/mock-server.js')
->>>>>>> main
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
