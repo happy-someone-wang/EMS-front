@@ -99,14 +99,98 @@ export function getStudentInfo(id, role) {
 
 
 
-export function getReport(experimentId, studentId) {
+
+export function getSystemInfo() {
     return request({
-        url: '/report/getone',
+        url: '/notice/systemNoticeList',
         method: 'get',
         params: {
-            experimentId: experimentId,
+        }
+    })
+}
+
+export function getCourseInfo(courseId) {
+    return request({
+        url: '/notice/courseNoticeList',
+        method: 'get',
+        params: {
+            courseId: courseId
+        }
+    })
+}
+
+export function uplaodAvatar(avatar, id, role) {
+    return request({
+        url: '/person/avatar',
+        method: 'put',
+        headers:{
+            "Content-Type": "multipart/form-data",
+        },
+        data: {
+            avatar:avatar},
+        params: {
+            id: id,
+            role: role
+        }
+    })
+}
+
+export function courseSignList(courseId, studentId) {
+    return request({
+        url: '/grade/courseSignList',
+        method: 'get',
+        params: {
+            courseId: courseId,
             studentId: studentId
         }
     })
 }
 
+export function studentSignIn(sign, studentId, signTime) {
+    return request({
+        url: '/grade/studentsign',
+        method: 'post',
+        data: {
+            signId: sign.sign_id,
+            studentId: studentId,
+            courseId: sign.course_id,
+            signTime: signTime,
+            signIn: sign.signIn,
+        }
+    })
+}
+
+export function getReport(experimentId,studentId) {
+    return request({
+        url: '/report/getone',
+        method: 'get',
+        params: {
+            experimentId: experimentId,
+            studentId: studentId,
+        }
+    })
+}
+
+export function putReport(reportId,studentId,content) {
+    return request({
+        url: '/report/update',
+        method: 'post',
+        params: {
+            reportId: reportId,
+            studentId: studentId,
+            content:content,
+        }
+    })
+}
+
+export function postReport(experimentId,studentId,content) {
+    return request({
+        url: '/report/add',
+        method: 'post',
+        params: {
+            experimentId: experimentId,
+            studentId: studentId,
+            content:content,
+        }
+    })
+}

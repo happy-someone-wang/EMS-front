@@ -32,6 +32,7 @@
             <el-autocomplete
               class="inline-input"
               :trigger-on-focus="false"
+              :fetch-suggestions="querySearch"
               popper-class="el-autocomplete-suggestion"
               v-model="filter_name"
               placeholder="请输入名称"
@@ -42,9 +43,9 @@
 
           <el-form-item
             style="margin-bottom: 0px; margin-left: 150px"
-            label="开课学年"
+            label="上课工作日"
           >
-            <el-select size="small" v-model="year" placeholder="请选择学年">
+            <el-select size="small" v-model="year" placeholder="请选择工作日">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -57,9 +58,9 @@
 
           <el-form-item
             style="margin-bottom: 0px; margin-left: 20px"
-            label="开课学期"
+            label="上课时间"
           >
-            <el-select size="small" v-model="term" placeholder="请选择学期">
+            <el-select size="small" v-model="term" placeholder="请选择时间">
               <el-option
                 v-for="item in terms"
                 :key="item.value"
@@ -76,14 +77,14 @@
       <div class="condition-title">已选实验课程</div>
       <el-table
         ref="singleTable"
-        :data="courseTable"
+        :data="currentTable"
         highlight-current-row
         style="width: 100%"
         v-loading="loading"
       >
         <el-table-column prop="courseId" label="课程序号" width="150">
         </el-table-column>
-        <el-table-column prop="name" label="课程名称" width="300">
+        <el-table-column prop="name" label="课程名称" width="200">
         </el-table-column>
         <el-table-column prop="credit" label="学分" width="120">
         </el-table-column>
@@ -92,6 +93,8 @@
         <el-table-column prop="startTime" label="开课时间" width="200">
         </el-table-column>
         <el-table-column prop="endTime" label="结课时间" width="200">
+        </el-table-column>
+        <el-table-column prop="classTime" label="上课时间" width="200">
         </el-table-column>
         <el-table-column fixed="right">
           <template slot-scope="scope">
@@ -119,21 +122,67 @@ export default {
       filter_name: null,
       options: [
         {
-          value: "2022",
-          label: "2022-2023",
+          value: "1",
+          label: "周一",
+        },
+        {
+          value: "2",
+          label: "周二",
+        },
+        {
+          value: "3",
+          label: "周三",
+        },
+        {
+          value: "4",
+          label: "周四",
+        },
+        {
+          value: "5",
+          label: "周五",
+        },
+        {
+          value: "6",
+          label: "周六",
+        },
+        {
+          value: "7",
+          label: "周日",
         },
       ],
       terms: [
         {
-          value: "1",
-          label: "第一学期",
+          value: "1-2",
+          label: "1-2",
         },
         {
-          value: "2",
-          label: "第二学期",
+          value: "3-4",
+          label: "3-4",
+        },
+        {
+          value: "5-6",
+          label: "5-6",
+        },
+        {
+          value: "7-8",
+          label: "7-8",
+        },
+        {
+          value: "9-10",
+          label: "9-10",
         },
       ],
       courseTable: [
+        {
+          courseId: "",
+          name: "",
+          credit: null,
+          startTime: "",
+          endTime: "",
+          teacher: [],
+        },
+      ],
+      currentTable:[
         {
           courseId: "",
           name: "",
@@ -147,6 +196,7 @@ export default {
       year: "",
       term: "",
       currentCourseId: null,
+      courseNames: [],
     };
   },
 
@@ -156,15 +206,101 @@ export default {
       console.log("当前的课程信息为", res.data);
       this.courseTable = res.data;
       console.log("当前的课程信息为", this.courseTable);
+      this.courseTable.forEach((element) => {
+        element.startTime = this.formatDate(element.startTime);
+        element.endTime = this.formatDate(element.endTime);
+
+        // 创建智能搜索提示框
+        var obj = new Object();
+        obj.value = element.name;
+        this.courseNames.push(obj);
+
+        element.classTime =
+          "周" +
+          this.getWeek(element.weekday) +
+          element.startCourse +
+          "-" +
+          element.endCourse +
+          "节课";
+      });
+      this.currentTable = this.courseTable;
     });
+    
   },
 
   methods: {
+    getWeek(i) {
+      if (i == 1) {
+        return "一";
+      } else if (i == 2) {
+        return "二";
+      } else if (i == 3) {
+        return "三";
+      } else if (i == 4) {
+        return "四";
+      } else if (i == 5) {
+        return "五";
+      } else if (i == 6) {
+        return "六";
+      } else {
+        return "日";
+      }
+    },
+    querySearch(queryString, cb) {
+      var courseNames = this.courseNames;
+      var results = queryString
+        ? courseNames.filter(this.createFilter(queryString))
+        : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    },
+    // 格式化Date方法
+    formatDate(time, format = "YY-MM-DD hh:mm:ss") {
+      var date = new Date(time);
+
+      var year = date.getFullYear(),
+        month = date.getMonth() + 1, //月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+      var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
+        return "0" + index;
+      });
+      var newTime = format
+        .replace(/YY/g, year)
+        .replace(/MM/g, preArr[month] || month)
+        .replace(/DD/g, preArr[day] || day)
+        .replace(/hh/g, preArr[hour] || hour)
+        .replace(/mm/g, preArr[min] || min)
+        .replace(/ss/g, preArr[sec] || sec);
+
+      return newTime;
+    },
     ResetButtonClick() {
       console.log("Reset");
+      this.currentTable = this.courseTable;
     },
     FilterButtonClick() {
       console.log("Filter");
+      console.log(this.year, this.term, this.filter_name);
+      this.courseTable.forEach((e) => {
+        if (
+          e.name == this.filter_name &&
+          e.classTime == "周" + this.getWeek(this.year) + this.term + "节课"
+        ) {
+          this.currentTable = [] 
+          this.currentTable.push(e); 
+        }
+      });
     },
     handleClick(row) {
       console.log(row);

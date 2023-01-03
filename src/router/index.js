@@ -213,6 +213,26 @@ export const asyncRoutes = [
   },
 
   {
+    path: '/student/person',
+    component: Layout,
+    meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['student'] },
+    children: [
+      {
+        path: 'personInfo',
+        name: 'PersonInfo',
+        component: () => import('@/views/studentViews/person/personInfo/index'),
+        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
+      },
+      {
+        path: 'accountManage',
+        name: 'AccountManage',
+        hidden: true,
+        component: () => import('@/views/studentViews/person/accountManage/index'),
+        meta: { title: '账号管理', icon: 'el-icon-s-finance' }
+      }
+    ]
+  },
+  {
     path: '/teacher/course',
     component: Layout,
     name: 'Course',
@@ -237,7 +257,7 @@ export const asyncRoutes = [
         path: 'experiment',
         name: 'Experiment',
         component: () => import('@/views/teacherViews/course/experimentItem/index'),
-        meta: { title: '实验项目', icon: 'el-icon-s-claim' }
+        meta: { title: '发布实验', icon: 'el-icon-s-claim' }
       },
       {
         path: 'todoList',

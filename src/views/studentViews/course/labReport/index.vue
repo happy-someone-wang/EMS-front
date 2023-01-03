@@ -10,14 +10,34 @@
           </template>
         </el-cascader-panel>
       </el-col>
-      <el-col :span="8"> 实验报告 </el-col>
+      <el-col :span="17">
+        <div v-if="reportInfo != null">
+          <div
+            style="display: flex; justify-content: space-between; margin: 15px"
+          >
+            实验报告状态：{{ reportInfo.status }}
+            <el-button type="primary" size="small" plain @click="submit"
+              >提交报告</el-button
+            >
+          </div>
+          <indexVue
+            @getInput="getNew"
+            :value="reportInfo.reportList[0].content"
+          ></indexVue>
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { getStudentCourseList, getExperimentList,getReport } from "@/api/student";
+import indexVue from "@/components/Tinymce/index.vue";
+import {
+  getStudentCourseList,
+  getExperimentList,
+  getReport,
+} from "@/api/student";
 export default {
   name: "EMSIndex",
   computed: {
@@ -28,9 +48,13 @@ export default {
       options: [],
       courseTable: null,
       check: null,
+      reportInfo: null,
+      newValue: null,
     };
   },
-
+  components: {
+    indexVue,
+  },
   async mounted() {
     console.log("当前我的ID和身份为", this.userId, this.roles);
     await getStudentCourseList(this.userId).then((res) => {
@@ -68,12 +92,35 @@ export default {
           });
         });
       } else {
-        console.log("请求实验")
+        console.log("请求实验");
         // 请求实验对应的报告信息
-        getReport(node.value, this.userId)
-        .then(res =>{
+        getReport(node.value, this.userId).then((res) => {
           console.log(res);
-        })
+          console.log("获取到的报告信息为", res);
+          this.reportInfo = res.data;
+        });
+      }
+    },
+    getNew(newValue) {
+      this.newValue = newValue;
+    },
+    submit(newValue) {
+      if (this.reportInfo.status == "已提交报告") {
+        putReport(
+          this.reportInfo.reportList[0].reportId,
+          this.userId,
+          this.newValue
+        ).then((res) => {
+          console.log("提交报告！");
+        });
+      } else {
+        postReport(
+          this.currentExperiment.experimentId,
+          this.userId,
+          this.newValue
+        ).then((res) => {
+          console.log("提交报告！");
+        });
       }
     },
   },
