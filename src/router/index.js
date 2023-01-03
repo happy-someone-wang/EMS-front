@@ -242,16 +242,16 @@ export const asyncRoutes = [
       {
         path: 'courseList',
         name: 'CourseList',
-        component: () => import('@/views/teacherViews/course/courseList/index'),
+        component: () => import('@/views/teacherViews/course/courseList/myCourses/index'),
         meta: { title: '我的授课', icon: 'el-icon-s-marketing' },
-        children: [
-          {
-            path: ':courseId',
-            name: 'courseHome',
-            component: () => import('@/views/teacherViews/course/courseList/courseHome/index'),
-            hidden: true
-          }
-        ]
+        
+      },
+      {
+        path: ':courseId',
+        name: 'courseHome',
+        component: () => import('@/views/teacherViews/course/courseList/courseHome/index'),
+        hidden: true,
+        meta: { title: '课程详情', icon: 'el-icon-s-marketing' },
       },
       {
         path: 'experiment',
@@ -304,8 +304,8 @@ export const asyncRoutes = [
         path: 'personalInfo',
         name: 'PersonalInfo',
         component: () => import('@/views/teacherViews/person/personalInfo/index'),
-        path: '/student/person',
-        component: Layout,
+        
+        
         meta: { title: '个人中心', icon: 'el-icon-menu', roles: ['student'] },
         children: [
           {
