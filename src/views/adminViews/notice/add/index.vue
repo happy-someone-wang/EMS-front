@@ -45,7 +45,7 @@ methods: {
       //adduser(Jsondata)
       // 自定义上传
       this.$axios
-      .post('http://localhost:8082/notice/systemNotice', Jsondata,config)
+      .post('http://123.60.156.14:7999/notice/systemNotice', Jsondata,config)
       .then((res) => {
       console.log(res)
       this.$router.go (-1);

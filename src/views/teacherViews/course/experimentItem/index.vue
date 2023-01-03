@@ -80,7 +80,7 @@ import { getTeacherCourseList, postExperiment } from "@/api/teacher"
               "Content-Type": "multipart/form-data",
           },
         }
-        this.$axios.post("http://localhost:7999/experiment/postExperiment",formdata,config)
+        this.$axios.post("http://123.60.156.14:7999/experiment/postExperiment",formdata,config)
         .then(res=>{
           console.log(res);
         })

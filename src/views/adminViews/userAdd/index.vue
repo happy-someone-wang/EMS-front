@@ -104,9 +104,8 @@
       //adduser(Jsondata)
       // 自定义上传
       this.$axios
-      .post('http://localhost:8084/admin/add', Jsondata,config)
+      .post('http://123.60.156.14:7999/admin/add', Jsondata,config)
       .then((res) => {
-
       alert(res.data.status+",成功数量为："+res.data.successNum);
       console.log(res)
       this.$router.go (-1);

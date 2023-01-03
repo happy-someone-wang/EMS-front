@@ -103,7 +103,7 @@ export default {
       };
       // 自定义上传
       this.$axios
-        .post('http://localhost:7999/resource/upload', formdata, config)
+        .post('http://123.60.156.14:7999/resource/upload', formdata, config)
         .then((res) => {
           alert(res.data.status);
           console.log(res)

@@ -182,7 +182,7 @@ export default {
             "Content-Type": "multipart/form-data",
         },
       }
-      await this.$axios.put("http://localhost:7999/person/avatar",formdata,config)
+      await this.$axios.put("http://123.60.156.14:7999/person/avatar",formdata,config)
       .then(res=>{
         console.log(res);
       })
